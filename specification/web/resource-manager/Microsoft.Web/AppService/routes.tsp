@@ -2,12 +2,14 @@
 
 import "@azure-tools/typespec-azure-core";
 import "@typespec/rest";
+import "@typespec/versioning";
 import "./models.tsp";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
+using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using TypeSpec.OpenAPI;
 
@@ -222,7 +224,7 @@ op regionalCheckNameAvailability is ArmProviderActionSync<
   Request = DnlResourceNameAvailabilityRequest,
   Response = DnlResourceNameAvailability,
   Scope = SubscriptionActionScope,
-  Parameters = LocationParameter,
+  Parameters = LocationResourceParameter,
   Error = DefaultErrorResponse
 >;
 
@@ -291,6 +293,7 @@ op move(
 ): NoContentResponse | DefaultErrorResponse;
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+@tag("Global")
 interface GlobalOperationGroup {
   /**
    * Description for Gets an operation in a subscription and given region
@@ -314,6 +317,7 @@ interface GlobalOperationGroup {
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+@tag("Provider")
 interface ProviderOperationGroup {
   /**
    * Description for Get available application frameworks and their versions
@@ -362,7 +366,7 @@ interface ProviderOperationGroup {
   getFunctionAppStacksForLocation is ArmProviderActionSync<
     Response = FunctionAppStackCollection,
     Parameters = {
-      ...LocationParameter;
+      ...LocationResourceParameter;
 
       /**
        * Stack OS Type
@@ -383,7 +387,7 @@ interface ProviderOperationGroup {
   getWebAppStacksForLocation is ArmProviderActionSync<
     Response = WebAppStackCollection,
     Parameters = {
-      ...LocationParameter;
+      ...LocationResourceParameter;
 
       /**
        * Stack OS Type
@@ -433,6 +437,7 @@ interface ProviderOperationGroup {
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+@tag("Recommendations")
 interface RecommendationsOperationGroup {
   /**
    * Description for List all recommendations for a subscription.
@@ -495,6 +500,7 @@ interface RecommendationsOperationGroup {
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+@tag("ResourceHealthMetadata")
 interface ResourceHealthMetadataNonResourceOperationGroup {
   /**
    * Description for List all ResourceHealthMetadata for all sites in the subscription.
@@ -540,12 +546,13 @@ interface GetUsagesInLocationOperationGroup {
   list is ArmProviderActionSync<
     Response = CsmUsageQuotaCollection,
     Scope = SubscriptionActionScope,
-    Parameters = LocationParameter,
+    Parameters = LocationResourceParameter,
     Error = DefaultErrorResponse
   >;
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+@tag("StaticSites")
 interface StaticSitesOperationGroup {
   /**
    * Description for Generates a preview workflow file for the static site
@@ -557,7 +564,7 @@ interface StaticSitesOperationGroup {
     Request = StaticSitesWorkflowPreviewRequest,
     Response = StaticSitesWorkflowPreview,
     Scope = SubscriptionActionScope,
-    Parameters = LocationParameter,
+    Parameters = LocationResourceParameter,
     Error = DefaultErrorResponse
   >;
 }

@@ -86,10 +86,12 @@ interface WorkflowRunActionRepetitionDefinitionOps
         @segment("repetitions")
         @key
         repetitionName: string,
-      }
+      },
+      ResourceName = "WorkflowRunActionRepetition"
     > {}
 
-@armResourceOperations
+@tag("WorkflowRunActions")
+@armResourceOperations(#{ omitTags: true })
 interface WorkflowRunActionRepetitionDefinitions {
   /**
    * Get a workflow run action repetition.
@@ -176,10 +178,12 @@ interface WorkflowRunActionScopeRepetitionOps
         @segment("scopeRepetitions")
         @key
         repetitionName: string,
-      }
+      },
+      ResourceName = "WorkflowRunActionScopeRepetition"
     > {}
 
-@armResourceOperations
+@tag("WorkflowRunActions")
+@armResourceOperations(#{ omitTags: true })
 interface WorkflowRunActionScopeRepetitions {
   /**
    * Get a workflow run action scoped repetition.
@@ -200,6 +204,7 @@ interface WorkflowRunActionScopeRepetitions {
 }
 
 @@doc(WorkflowRunActionRepetitionDefinition.name, "The workflow repetition.");
-@@doc(WorkflowRunActionRepetitionDefinition.properties,
+@@doc(
+  WorkflowRunActionRepetitionDefinition.properties,
   "The workflow run action repetition properties definition."
 );
